@@ -1,0 +1,63 @@
+# Use root/example as user/password credentials
+version: '3.5'
+
+services:
+  apache:
+    image: httpd
+    volumes:
+      - ./WEB/:/usr/local/apache2/htdocs/
+      - ./apache-cors.conf:/usr/local/apache2/conf/extra/apache-cors.conf
+    ports:
+      - "8081:80"
+    depends_on:
+      - nginx
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+  mysql:
+    image: 'mysql/mysql-server:8.0'
+    ports:
+        - '3306:3306'
+    environment:
+        MYSQL_ROOT_PASSWORD: 'Eltermometros'
+        MYSQL_DATABASE: 'Suncloud'
+        MYSQL_USER: 'Arnold'
+        MYSQL_PASSWORD: 'Eltermometros'
+        MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+        - './BBDD/:/var/lib/mysql'
+  laravelPassport:
+    image: markosmartinez/laravelpassport-php8.2
+    container_name: 'LaravelPassport'
+    volumes: 
+        - './LaravelPassport/RetoPassport/:/var/www/html'
+    ports:
+        - 81:8000
+    depends_on:
+        - mysql
+  laravelApiTiempo:
+    image: markosmartinez/laravelpassport-php8.2
+    container_name: 'LaravelApiTiempo'
+    volumes: 
+        - './LaravelApiTiempo/RetoApiTiempo/:/var/www/html'
+    environment:
+      USAR_WORKER: 1
+    ports:
+        - 82:8000
+    depends_on:
+      - mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: mysql
+    restart: always
+    ports:
+      - 8088:80

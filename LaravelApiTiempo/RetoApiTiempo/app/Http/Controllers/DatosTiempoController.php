@@ -18,23 +18,37 @@ class DatosTiempoController extends Controller
             'descripcion' => 'required|string',
         ]);
     
-        // Crear un nuevo registro en la base de datos
-        $datosTiempo = DatosTiempo::create([
-            'nombre' => $request->input('nombre'),
-            'temperatura' => $request->input('temperatura'),
-            'humedad' => $request->input('humedad'),
-            'viento' => $request->input('viento'),
-            'descripcion' => $request->input('descripcion'),
-        ]);
+        // Intentar encontrar una fila con el mismo nombre
+        $datosTiempo = DatosTiempo::where('nombre', $request->input('nombre'))->first();
     
-        // Puedes también usar el método save() como lo estás haciendo actualmente
+        if ($datosTiempo) {
+            // Si existe, actualizar los datos
+            $datosTiempo->update([
+                'temperatura' => $request->input('temperatura'),
+                'humedad' => $request->input('humedad'),
+                'viento' => $request->input('viento'),
+                'descripcion' => $request->input('descripcion'),
+                // Actualiza otros campos según sea necesario
+            ]);
+        } else {
+            // Si no existe, crear una nueva fila
+            $datosTiempo = DatosTiempo::create([
+                'nombre' => $request->input('nombre'),
+                'temperatura' => $request->input('temperatura'),
+                'humedad' => $request->input('humedad'),
+                'viento' => $request->input('viento'),
+                'descripcion' => $request->input('descripcion'),
+                // Crea otros campos según sea necesario
+            ]);
+        }
     
         // Retornar una respuesta JSON
         return response()->json([
-            'message' => 'Se han añadido correctamente los datos',
+            'message' => 'Datos almacenados correctamente',
             'datos_tiempo' => $datosTiempo,
         ]);
     }
+    
     
 
 }

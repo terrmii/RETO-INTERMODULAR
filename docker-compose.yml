@@ -43,8 +43,6 @@ services:
     container_name: 'LaravelApiTiempo'
     volumes: 
         - './LaravelApiTiempo/RetoApiTiempo/:/var/www/html'
-    environment:
-      USAR_WORKER: 1
     ports:
         - 82:8000
     depends_on:

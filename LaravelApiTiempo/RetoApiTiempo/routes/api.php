@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/datos-tiempo', [DatosTiempoController::class, 'store']);
+
+Route::get('/datos-tiempo', [DatosTiempoController::class, 'index']);

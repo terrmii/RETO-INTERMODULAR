@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('datosTiempos', function (Blueprint $table) {
+        Schema::create('datos_tiempo', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->integer('temperatura');
+            $table->integer('temperatura_real');
+            $table->integer('temperatura_fake');
             $table->integer('humedad');
             $table->integer('viento');
             $table->string('descripcion');
+            $table->timestamp('fecha');
+            $table->unsignedBigInteger('id_ubicacion');
+            $table->foreign('id_ubicacion')->references('id')->on('ubicaciones');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('datosTiempos');
     }
 };

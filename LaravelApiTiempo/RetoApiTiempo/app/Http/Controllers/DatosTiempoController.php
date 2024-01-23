@@ -12,10 +12,11 @@ class DatosTiempoController extends Controller
         // Validar la solicitud si es necesario
         $request->validate([
             'nombre' => 'required|string',
-            'temperatura' => 'required|numeric',
+            'temperatura_real' => 'required|numeric',
+            'temperatura_fake' => 'required|numeric',
             'humedad' => 'required|numeric',
             'viento' => 'required|numeric',
-            'descripcion' => 'required|string',
+            'descripcion' => 'required|string', 
         ]);
     
         // Intentar encontrar una fila con el mismo nombre
@@ -48,7 +49,19 @@ class DatosTiempoController extends Controller
             'datos_tiempo' => $datosTiempo,
         ]);
     }
-    
+
+    // app/Http/Controllers/DatosTiempoController.php
+
+    public function index()
+    {
+        $datosTiempo = DatosTiempo::all();
+
+        return response()->json([
+            'message' => 'Datos obtenidos correctamente',
+            'datos_tiempo' => $datosTiempo,
+        ]);
+    }
+
     
 
 }

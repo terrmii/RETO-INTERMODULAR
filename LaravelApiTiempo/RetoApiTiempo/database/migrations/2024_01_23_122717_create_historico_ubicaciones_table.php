@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('historico_ubicaciones', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('id_datos_tiempo');
+            $table->foreign('id_datos_tiempo')->references('id')->on('datos_tiempo');
+            $table->integer('temperatura');
+            $table->integer('humedad');
+            $table->integer('viento');
+            $table->string('descripcion');
+            $table->timestamp('fecha');
         });
     }
 

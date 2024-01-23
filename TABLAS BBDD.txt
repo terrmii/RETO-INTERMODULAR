@@ -1,0 +1,30 @@
+TABLA DE UBICACIONES PARA LAS CARDS
+
+Ubicacion---------------DATOS EL TIEMPO PARA LAS BALIZAS
+ID ->Autoincremental
+nombre
+longitud
+latitud
+
+datos_tiempo--------------->cada 15 segs
+ID ->Autoincremental
+temperatura_real
+temperatura_fake
+humedad
+viento
+descripcion
+fecha
+id_ubicacion ->fk
+
+Historico_Datos_Tiempo---------> actualizar solo cada dia
+ID ->Autoincremental
+id_datos_tiempo ->FK -> tabla id de 'datos_tiempo'
+temperatura
+humedad
+viento
+descripcion
+fecha
+
+
+
+https://api.openweathermap.org/data/2.5/weather?q=donostia&appid=253682c0bd759acfb4255d4aa08c3dd7&units=metric&lang=es

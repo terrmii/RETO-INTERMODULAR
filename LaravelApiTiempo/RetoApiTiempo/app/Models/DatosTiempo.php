@@ -11,12 +11,14 @@ class DatosTiempo extends Model
     
     protected $table = 'datosTiempos';
     protected $fillable = [
-        'nombre',
-        'temperatura',
+        'temperatura_real',
+        'temperatura_fake',
         'humedad',
         'viento',
         'descripcion',
-        // Agrega aquí otros campos que desees permitir en la asignación masiva
+        'fecha',
+        'id_ubicacion'
+        
     ];
     public $timestamps = false; // Disable timestamps
     use HasFactory;

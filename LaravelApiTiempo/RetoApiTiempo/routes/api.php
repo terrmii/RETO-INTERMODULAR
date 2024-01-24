@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DatosTiempoController;
+use App\Http\Controllers\UbicacionesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 Route::post('/datos-tiempo', [DatosTiempoController::class, 'store']);
 
 Route::get('/datos-tiempo', [DatosTiempoController::class, 'index']);
+
+Route::get('/actualizar-ubicaciones', [UbicacionesController::class, 'actualizarUbicaciones']);

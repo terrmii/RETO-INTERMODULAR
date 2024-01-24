@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamp('fecha');
             $table->unsignedBigInteger('id_ubicacion');
             $table->foreign('id_ubicacion')->references('id')->on('ubicaciones');
-            $table->timestamps();
         });
     }
 

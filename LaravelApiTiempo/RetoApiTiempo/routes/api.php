@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/datos-tiempo', [DatosTiempoController::class, 'store']);
 
-Route::get('/datos-tiempo', [DatosTiempoController::class, 'index']);
+Route::get('/datos-dia', [DatosTiempoController::class, 'subirDatosMeteorologicos']);
 
-Route::get('/actualizar-ubicaciones', [UbicacionesController::class, 'actualizarUbicaciones']);
+Route::get('/obtener-ubicaciones', [UbicacionesController::class, 'obtenerUbicaciones']);
+
+Route::get('/datos-fake', [DatosTiempoController::class, 'temperaturaFalsa']);

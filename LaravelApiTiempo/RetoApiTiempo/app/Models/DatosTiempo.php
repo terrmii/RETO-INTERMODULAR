@@ -9,7 +9,7 @@ use Laravel\Passport\HasApiTokens;
 class DatosTiempo extends Model
 {
     
-    protected $table = 'datosTiempos';
+    protected $table = 'datos_tiempo';
     protected $fillable = [
         'temperatura_real',
         'temperatura_fake',

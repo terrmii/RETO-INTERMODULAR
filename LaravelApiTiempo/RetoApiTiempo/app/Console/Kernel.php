@@ -12,8 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule->call('\app\Http\Controllers\DatosTiempoController@store')->everyTenSeconds();
+        // Generar temperaturas fake cada 15 segundas
+        $schedule->call('\app\Http\Controllers\DatosTiempoController@temperaturaFalsa')->everyFifteenSeconds();
+        // Recargar temperatura
+        $schedule->call('\app\Http\Controllers\DatosTiempoController@temperaturaFalsa')->everyFifteenSeconds();
     }
 
     /**

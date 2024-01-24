@@ -3,65 +3,92 @@
 namespace App\Http\Controllers;
 
 use App\Models\DatosTiempo;
+use App\Models\ubicaciones;
+use Http;
 use Illuminate\Http\Request;
 
 class DatosTiempoController extends Controller
 {
-    public function store(Request $request)
+
+    public function subirDatosMeteorologicos()
     {
-        // Validar la solicitud si es necesario
-        $request->validate([
-            'nombre' => 'required|string',
-            'temperatura_real' => 'required|numeric',
-            'temperatura_fake' => 'required|numeric',
-            'humedad' => 'required|numeric',
-            'viento' => 'required|numeric',
-            'descripcion' => 'required|string', 
-        ]);
-    
-        // Intentar encontrar una fila con el mismo nombre
-        $datosTiempo = DatosTiempo::where('nombre', $request->input('nombre'))->first();
-    
-        if ($datosTiempo) {
-            // Si existe, actualizar los datos
-            $datosTiempo->update([
-                'temperatura' => $request->input('temperatura'),
-                'humedad' => $request->input('humedad'),
-                'viento' => $request->input('viento'),
-                'descripcion' => $request->input('descripcion'),
-                // Actualiza otros campos según sea necesario
-            ]);
-        } else {
-            // Si no existe, crear una nueva fila
-            $datosTiempo = DatosTiempo::create([
-                'nombre' => $request->input('nombre'),
-                'temperatura' => $request->input('temperatura'),
-                'humedad' => $request->input('humedad'),
-                'viento' => $request->input('viento'),
-                'descripcion' => $request->input('descripcion'),
-                // Crea otros campos según sea necesario
-            ]);
+        try {
+            // Obtener todas las ubicaciones de la base de datos
+            $ubicaciones = ubicaciones::all();
+
+            foreach ($ubicaciones as $ubicacion) {
+                $latitud = $ubicacion->latitud;
+                $longitud = $ubicacion->longitud;
+
+                // Obtener datos meteorológicos de OpenWeatherMap
+                $weatherData = $this->getWeatherData($latitud, $longitud);
+
+                // Guardar datos meteorológicos en la tabla DatosTiempo
+                DatosTiempo::updateOrCreate(
+                    ['id_ubicacion' => $ubicacion->id],
+                [
+                    'temperatura_real' => $weatherData['temperatura_real'],
+                    'temperatura_fake' => $weatherData['temperatura_fake'],
+                    'humedad' => $weatherData['humedad'],
+                    'viento' => $weatherData['viento'],
+                    'descripcion' => $weatherData['descripcion'],
+                    'fecha' => now(),
+                ]);
+            }
+
+            return response()->json(['message' => 'Datos meteorológicos actualizados correctamente']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+        private function getWeatherData($latitud, $longitud)
+        {
+            $apiKey = '253682c0bd759acfb4255d4aa08c3dd7'; // Reemplaza con tu clave de API de OpenWeatherMap
     
-        // Retornar una respuesta JSON
-        return response()->json([
-            'message' => 'Datos almacenados correctamente',
-            'datos_tiempo' => $datosTiempo,
-        ]);
-    }
-
-    // app/Http/Controllers/DatosTiempoController.php
-
-    public function index()
-    {
-        $datosTiempo = DatosTiempo::all();
-
-        return response()->json([
-            'message' => 'Datos obtenidos correctamente',
-            'datos_tiempo' => $datosTiempo,
-        ]);
-    }
-
+            // Realizar solicitud a la API de OpenWeatherMap usando Http de Laravel
+            $response = Http::get("https://api.openweathermap.org/data/2.5/weather", [
+                'lat' => $latitud,
+                'lon' => $longitud,
+                'appid' => $apiKey,
+                'units' => 'metric',
+                'lang' => 'es'
+            ]);
+    
+            $weatherData = $response->json();
+    
+            // Procesar datos y devolver un array con la información deseada
+            return [
+                'temperatura_real' => $weatherData['main']['temp'],
+                'temperatura_fake' => $weatherData['main']['temp'],
+                'humedad' => $weatherData['main']['humidity'],
+                'viento' => $weatherData['wind']['speed'],
+                'descripcion' => $weatherData['weather'][0]['description'],
+                'fecha' => now(), // Fecha actual
+            ];
+            
+        }
+        public function temperaturaFalsa()
+        {
+            try {
+                $temperaturas = DatosTiempo::all();
+        
+                foreach ($temperaturas as $temperatura) {
+                    $temperaturaFake = $temperatura->temperatura_real;
+                    $temperaturaFake = $temperaturaFake + rand(-2, 2);
+        
+                    // Actualizar la instancia actual
+                    $temperatura->update([
+                        'temperatura_fake' => $temperaturaFake,
+                    ]);
+                }
+        
+                return response()->json(['message' => 'Datos fake actualizados']);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
+        
     
 
 }

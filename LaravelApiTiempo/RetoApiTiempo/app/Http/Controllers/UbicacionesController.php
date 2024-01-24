@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ubicaciones;
+use App\Models\Ubicacion;
 use Http;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class UbicacionesController extends Controller
                     $latitud = $municipio['LATITUD_ETRS89_REGCAN95'];
                     $longitud = $municipio['LONGITUD_ETRS89_REGCAN95'];
     
-                    ubicaciones::updateOrCreate(
+                    Ubicacion::updateOrCreate(
                         ['nombre' => $nombre],
                         ['latitud' => $latitud, 'longitud' => $longitud]
                     );
@@ -33,6 +33,12 @@ class UbicacionesController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function obtenerDatosUbicaciones()
+    {
+        $ubicaciones = Ubicacion::all(['nombre', 'latitud', 'longitud']);
+        return response()->json(['ubicaciones' => $ubicaciones]);
     }
     
 }

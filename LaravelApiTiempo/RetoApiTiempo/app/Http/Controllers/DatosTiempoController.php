@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DatosTiempo;
-use App\Models\ubicaciones;
+use App\Models\Ubicacion;
 use Http;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class DatosTiempoController extends Controller
     {
         try {
             // Obtener todas las ubicaciones de la base de datos
-            $ubicaciones = ubicaciones::all();
+            $ubicaciones = Ubicacion::all();
 
             foreach ($ubicaciones as $ubicacion) {
                 $latitud = $ubicacion->latitud;

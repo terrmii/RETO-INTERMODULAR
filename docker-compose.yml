@@ -39,6 +39,8 @@ services:
     depends_on:
         - mysql
   laravelApiTiempo:
+    environment:
+        USAR_WORKER: 1
     image: markosmartinez/laravelpassport-php8.2
     container_name: 'LaravelApiTiempo'
     volumes: 

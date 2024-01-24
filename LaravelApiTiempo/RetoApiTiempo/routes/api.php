@@ -23,3 +23,6 @@ Route::get('/datos-dia', [DatosTiempoController::class, 'subirDatosMeteorologico
 Route::get('/obtener-ubicaciones', [UbicacionesController::class, 'obtenerUbicaciones']);
 
 Route::get('/datos-fake', [DatosTiempoController::class, 'temperaturaFalsa']);
+
+// En tu archivo de rutas
+Route::get('/obtener-ubicaciones', 'UbicacionesController@obtenerDatosUbicaciones');

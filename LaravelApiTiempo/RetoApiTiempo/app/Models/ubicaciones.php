@@ -15,5 +15,7 @@ class ubicaciones extends Model
         'longitud'
     ];
 
+    public $timestamps = false; // Disable timestamps
+
     use HasFactory;
 }

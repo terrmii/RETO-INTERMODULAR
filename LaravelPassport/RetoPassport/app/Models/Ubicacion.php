@@ -18,4 +18,9 @@ class Ubicacion extends Model
     public $timestamps = false; // Disable timestamps
 
     use HasFactory;
+
+    public function ubicacion()
+    {
+        return $this->belongsTo(DatosTiempo::class, 'id_ubicacion');
+    }
 }

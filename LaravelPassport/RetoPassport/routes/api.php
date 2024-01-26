@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DatosTiempoController;
 use App\Http\Controllers\UbicacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,3 +32,5 @@ Route::group([
 });
 
 Route::get('/obtener-ubicaciones', [UbicacionController::class, 'obtenerDatosUbicaciones']);
+
+Route::get('/obtener-datos-nombre/{nombreUbicacion}', [DatosTiempoController::class, 'obtenerDatosNombre']);

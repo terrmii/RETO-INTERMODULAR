@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('temperatura_real');
             $table->integer('temperatura_fake');
             $table->integer('humedad');
-            $table->integer('viento');
+            $table->double('viento');
             $table->string('descripcion');
             $table->timestamp('fecha');
             $table->unsignedBigInteger('id_ubicacion');

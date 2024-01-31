@@ -18,7 +18,7 @@ id_ubicacion ->fk
 
 Historico_Datos_Tiempo---------> actualizar solo cada dia
 ID ->Autoincremental
-id_datos_tiempo ->FK
+id_datos_tiempo ->FK -> tabla id de 'datos_tiempo'
 temperatura
 humedad
 viento

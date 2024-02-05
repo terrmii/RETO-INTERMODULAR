@@ -34,3 +34,5 @@ Route::group([
 Route::get('/obtener-ubicaciones', [UbicacionController::class, 'obtenerDatosUbicaciones']);
 
 Route::get('/obtener-datos-nombre/{nombreUbicacion}', [DatosTiempoController::class, 'obtenerDatosNombre']);
+
+Route::get('/obtener-temperatura/{nombreUbicacion}', [DatosTiempoController::class, 'obtenerTemperatura']);

@@ -6,6 +6,7 @@ use App\Models\DatosTiempo;
 use App\Models\Ubicacion;
 use Http;
 use Illuminate\Http\Request;
+use App\Models\historicoUbicaciones;
 
 class DatosTiempoController extends Controller
 {
@@ -26,13 +27,24 @@ class DatosTiempoController extends Controller
                 // Guardar datos meteorológicos en la tabla DatosTiempo
                 DatosTiempo::updateOrCreate(
                     ['id_ubicacion' => $ubicacion->id],
-                [
-                    'temperatura_real' => $weatherData['temperatura_real'],
-                    'temperatura_fake' => $weatherData['temperatura_fake'],
-                    'humedad' => $weatherData['humedad'],
-                    'viento' => $weatherData['viento'],
-                    'descripcion' => $weatherData['descripcion'],
-                    'fecha' => now(),
+                    [
+                        'temperatura_real' => $weatherData['temperatura_real'],
+                        'temperatura_fake' => $weatherData['temperatura_fake'],
+                        'humedad' => $weatherData['humedad'],
+                        'viento' => $weatherData['viento'],
+                        'descripcion' => $weatherData['descripcion'],
+                        'fecha' => now(),
+                    ]
+                );
+
+                // Insertar datos en la tabla historicoUbicaciones
+                historicoUbicaciones::create([
+                        'id_ubicacion' => $ubicacion->id,
+                        'temperatura' => $weatherData['temperatura_real'],
+                        'humedad' => $weatherData['humedad'],
+                        'viento' => $weatherData['viento'],
+                        'descripcion' => $weatherData['descripcion'],
+                        'fecha' => now(),
                 ]);
             }
 

@@ -1,0 +1,18 @@
+PONER EN MARCHA EL PROYECTO
+
+1. Descargar los dos githubs
+
+	1.1 Contenedores y servidores https://github.com/terrmii/RETO-INTERMODULAR
+	1.2 Contenido web https://github.com/terrmii/RETO-v.2
+
+2. Crear una carpeta llamada web y anadirla dentro de las carpetas de los contenedores
+
+3. Pegar ahi el contenido web
+
+4. Hacer una llamada a la api de http://localhost:81/api/obtener-ubicaciones
+
+5. Dirigirse a la imagen LaravelApiTiempo en docker y en exec ejecutar los siguientes comandos o esperar 15 minutos
+
+	5.1 Bash
+	5.2 php artisan schedule:test
+	5.3 Seleccionar @subirDatosMeteorologicos

@@ -16,13 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/datos-tiempo', [DatosTiempoController::class, 'store']);
-
 Route::get('/datos-dia', [DatosTiempoController::class, 'subirDatosMeteorologicos']);
 
 Route::get('/obtener-ubicaciones', [UbicacionesController::class, 'obtenerUbicaciones']);
 
 Route::get('/datos-fake', [DatosTiempoController::class, 'temperaturaFalsa']);
 
-// En tu archivo de rutas
-Route::get('/obtener-ubicaciones', 'UbicacionesController@obtenerDatosUbicaciones');
